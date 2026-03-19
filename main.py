@@ -5,7 +5,6 @@ import os
 sys.path.append(os.getcwd())
 
 from src.orchestrator import Orchestrator
-from server import app  # Export app for ASGI servers like uvicorn
 
 def main():
     """
