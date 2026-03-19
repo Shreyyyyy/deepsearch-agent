@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeepResearch | AI Financial Intelligence | SENDA | By: Shreyans Jain</title>
+    <title>SENDA | DeepSearch AI Agent | By: Shreyans Jain</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
@@ -12,20 +12,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --bg-dark: #0a0a0b;
-            --panel-dark: #161618;
-            --sidebar-dark: #0f0f11;
+            --bg-dark: #030303;
+            --panel-dark: rgba(18, 18, 20, 0.7);
+            --sidebar-dark: rgba(10, 10, 12, 0.95);
             --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.4);
-            --text-main: #e2e8f0;
+            --accent-glow: rgba(59, 130, 246, 0.5);
+            --text-main: #f1f5f9;
             --text-muted: #94a3b8;
-            --border: #27272a;
+            --border: rgba(255, 255, 255, 0.1);
             --success: #10b981;
             --warning: #f59e0b;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -35,29 +37,65 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Outfit', sans-serif;
             background-color: var(--bg-dark);
             color: var(--text-main);
             height: 100vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            background-image:
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
+        }
+
+        /* MESH BACKGROUND ANIMATION */
+        .mesh-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            filter: blur(80px);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .mesh-blob {
+            position: absolute;
+            width: 50vw;
+            height: 50vw;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: move 20s infinite alternate;
+        }
+
+        @keyframes move {
+            from {
+                transform: translate(-10%, -10%);
+            }
+
+            to {
+                transform: translate(60%, 40%);
+            }
         }
 
         header {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 2rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 1px solid var(--border);
-            background: rgba(10, 10, 11, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
+            background: rgba(3, 3, 3, 0.7);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
         }
 
         .logo {
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.4rem;
+            letter-spacing: -0.03em;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -65,43 +103,51 @@
 
         .logo span {
             color: var(--accent);
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .app-body {
             flex: 1;
             display: flex;
             overflow: hidden;
+            position: relative;
         }
 
-        /* SIDEBAR */
+        /* SIDEBAR (Drawer support) */
         #sidebar {
-            width: 260px;
+            width: 280px;
             background: var(--sidebar-dark);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            padding: 1rem;
-            transition: transform 0.3s ease;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 500;
         }
 
         .new-chat-btn {
-            background: rgba(59, 130, 246, 0.1);
-            border: 1px solid var(--accent-glow);
-            color: var(--text-main);
-            padding: 0.8rem;
-            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--glass-border);
+            color: #fff;
+            padding: 0.9rem;
+            border-radius: 12px;
             font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             cursor: pointer;
-            margin-bottom: 1.5rem;
-            transition: all 0.2s;
+            margin-bottom: 2rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .new-chat-btn:hover {
-            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.2);
         }
 
         .history-list {
@@ -109,39 +155,43 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 0.4rem;
+            gap: 0.5rem;
+            padding-right: 5px;
         }
 
         .history-item {
-            padding: 0.75rem;
-            border-radius: 6px;
-            font-size: 0.85rem;
+            padding: 0.85rem 1rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
             color: var(--text-muted);
             cursor: pointer;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             transition: all 0.2s;
+            border: 1px solid transparent;
         }
 
         .history-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
+            background: var(--glass-bg);
+            color: #fff;
+            border-color: var(--glass-border);
         }
 
         .history-item.active {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--accent);
-            border-left: 2px solid var(--accent);
+            background: rgba(59, 130, 246, 0.15);
+            color: #fff;
+            border-color: var(--accent);
         }
 
-        /* MAIN CONTENT */
+        /* MAIN */
         main {
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
+            background: transparent;
         }
 
         #chat-container {
@@ -149,7 +199,7 @@
             overflow-y: auto;
             padding: 2rem;
             scroll-behavior: smooth;
-            max-width: 900px;
+            max-width: 1100px;
             margin: 0 auto;
             width: 100%;
         }
@@ -161,35 +211,15 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
+            animation: fadeIn 1s ease;
         }
 
-        .welcome-screen h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            background: linear-gradient(to bottom, #fff, #94a3b8);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .welcome-screen p {
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-
-        .message {
-            margin-bottom: 2rem;
-            animation: slideUp 0.3s ease-out;
-        }
-
-        @keyframes slideUp {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(20px);
             }
 
             to {
@@ -198,32 +228,71 @@
             }
         }
 
+        .welcome-screen h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .welcome-screen p {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .quick-tips .badge {
+            cursor: pointer;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+
+        .quick-tips .badge:hover {
+            transform: scale(1.05);
+            border-color: var(--accent);
+            color: #fff;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .message {
+            margin-bottom: 3rem;
+        }
+
         .user-message {
             display: flex;
             justify-content: flex-end;
         }
 
         .user-message .content {
-            background: var(--panel-dark);
-            padding: 0.75rem 1.25rem;
-            border-radius: 1.5rem;
-            max-width: 80%;
-            border: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.05));
+            padding: 1rem 1.75rem;
+            border-radius: 20px 20px 4px 20px;
+            max-width: 85%;
+            border: 1px solid var(--glass-border);
+            font-size: 1.05rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
         }
 
-        .bot-message {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
+        /* AGENT PANEL */
         .research-panel {
             background: var(--panel-dark);
-            border-radius: 1rem;
-            border: 1px solid var(--border);
-            padding: 1.5rem;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
 
         .research-panel::after {
@@ -232,63 +301,60 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 2px;
-            background: var(--accent);
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), #8b5cf6);
             width: 0%;
-            transition: width 0.3s ease;
-            box-shadow: 0 0 10px var(--accent-glow);
+            transition: width 0.5s cubic-bezier(0.1, 0.7, 0.1, 1);
+            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         .research-header {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.5rem;
+            gap: 1rem;
+            margin-bottom: 2rem;
         }
 
         .status-spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(59, 130, 246, 0.2);
+            width: 22px;
+            height: 22px;
+            border: 3px solid rgba(59, 130, 246, 0.15);
             border-top-color: var(--accent);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
         .thought-log {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            background: rgba(0, 0, 0, 0.2);
-            padding: 1.25rem;
-            border-radius: 0.75rem;
-            max-height: 250px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            max-height: 400px;
             overflow-y: auto;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             flex-direction: column;
-            gap: 0.6rem;
+            gap: 0.75rem;
         }
 
         .thought-entry {
-            border-left: 2px solid var(--border);
-            padding-left: 1rem;
-        }
-
-        .thought-entry.info {
-            border-left-color: var(--accent);
-            color: var(--text-main);
+            border-left: 3px solid rgba(255, 255, 255, 0.05);
+            padding-left: 1.25rem;
+            padding-top: 2px;
+            padding-bottom: 2px;
+            transition: all 0.3s;
         }
 
         .thought-entry.success {
             border-left-color: var(--success);
             color: var(--success);
+        }
+
+        .thought-entry.info {
+            border-left-color: var(--accent);
+            color: #fff;
         }
 
         .thought-entry.warning {
@@ -301,177 +367,226 @@
             color: #ef4444;
         }
 
-        .insight-pill {
-            display: inline-block;
-            background: rgba(16, 185, 129, 0.08);
-            color: var(--success);
-            padding: 0.15rem 0.5rem;
-            border-radius: 6px;
-            font-size: 0.7rem;
-            margin-right: 0.4rem;
-            margin-top: 0.3rem;
-            border: 1px solid rgba(16, 185, 129, 0.15);
-        }
-
+        /* REPORT SECTION */
         .report-section {
-            background: transparent;
-            padding: 1.5rem 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-top: 1rem;
+            border: 1px solid var(--glass-border);
             line-height: 1.8;
+            animation: slideUp 0.5s ease-out;
         }
 
         .report-section h1 {
-            font-size: 1.8rem;
-            margin: 2rem 0 1rem;
+            font-size: 2.5rem;
+            font-weight: 800;
             color: #fff;
+            margin-bottom: 2rem;
+            letter-spacing: -0.04em;
+        }
+
+        .report-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.75rem;
+            margin: 3rem 0 1.5rem;
         }
 
         .report-section table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-            font-size: 0.9rem;
-        }
-
-        .report-section th,
-        .report-section td {
-            border: 1px solid var(--border);
-            padding: 0.75rem;
-            text-align: left;
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .report-section th {
             background: rgba(59, 130, 246, 0.1);
             color: var(--accent);
+            padding: 1.25rem;
+            font-weight: 700;
         }
 
+        .report-section td {
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            color: #cbd5e1;
+        }
+
+        /* INPUT AREA */
         .input-container {
-            padding: 1.5rem 2rem 3rem;
-            background: linear-gradient(to top, var(--bg-dark) 70%, transparent);
+            padding: 2rem;
+            background: linear-gradient(to top, var(--bg-dark), transparent);
             position: relative;
         }
 
         .input-wrapper {
-            max-width: 700px;
+            max-width: 850px;
             margin: 0 auto;
-            background: var(--panel-dark);
-            border: 1px solid var(--border);
-            border-radius: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
             display: flex;
             align-items: center;
-            padding: 0.5rem 0.5rem 0.5rem 1.25rem;
-            transition: all 0.25s;
+            padding: 0.75rem 0.75rem 0.75rem 1.75rem;
+            transition: all 0.4s cubic-bezier(0.1, 0.7, 0.1, 1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.02);
         }
 
         .input-wrapper:focus-within {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(59, 130, 246, 0.2);
         }
 
         input {
             flex: 1;
             background: transparent;
             border: none;
-            color: var(--text-main);
-            font-size: 1rem;
+            color: #fff;
+            font-size: 1.1rem;
             outline: none;
+            font-weight: 300;
         }
 
         button#send-btn {
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
             color: white;
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.2s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
         }
 
         button#send-btn:hover {
-            background: #2563eb;
-            transform: translateY(-1px);
+            transform: scale(1.05) rotate(5deg);
         }
 
-        .badge {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--accent);
-            padding: 0.2rem 0.6rem;
-            border-radius: 99px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid var(--accent-glow);
+        /* MOBILE OPTIMIZATIONS */
+        #mobile-toggle {
+            display: none;
+            cursor: pointer;
+            color: #fff;
         }
 
-        .hidden {
-            display: none !important;
+        @media (max-width: 900px) {
+            #sidebar {
+                position: fixed;
+                left: -280px;
+                top: 0;
+                bottom: 0;
+            }
+
+            #sidebar.open {
+                left: 0;
+                box-shadow: 30px 0 100px rgba(0, 0, 0, 0.8);
+            }
+
+            #mobile-toggle {
+                display: block;
+            }
+
+            header {
+                padding: 1rem 1.5rem;
+            }
+
+            .welcome-screen h1 {
+                font-size: 2.2rem;
+            }
+
+            .user-message .content {
+                max-width: 95%;
+            }
+
+            #chat-container {
+                padding: 1rem;
+            }
+
+            .input-container {
+                padding: 1rem 1rem 2.5rem;
+            }
         }
 
-        /* PDF EXPORT STYLES (High Contrast) */
         .printable {
-            background: #ffffff !important;
-            color: #000000 !important;
+            background: #fff !important;
+            color: #000 !important;
             padding: 40px !important;
+            border-radius: 0;
         }
 
         .printable * {
-            color: #000000 !important;
-            border-color: #cccccc !important;
+            color: #000 !important;
+            border-color: #ddd !important;
             background: transparent !important;
         }
 
         .printable th {
-            background: #f0f0f0 !important;
-            color: #000 !important;
-        }
-
-        @media (max-width: 768px) {
-            #sidebar {
-                display: none;
-            }
-
-            header {
-                padding: 1rem;
-            }
+            background: #eee !important;
         }
     </style>
 </head>
 
 <body>
+    <div class="mesh-bg">
+        <div class="mesh-blob"></div>
+    </div>
+
     <header>
-        <div class="logo">SENDA<span> DeepSearch</span>
-            <div class="badge">PRO Agent</div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div id="mobile-toggle">
+                <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </div>
+            <div class="logo">SENDA<span>DeepSearch</span>
+                <div class="badge" style="margin-left:5px">v2.1</div>
+            </div>
         </div>
-        <div id="status-chip" class="badge hidden">AUTONOMOUS SEARCH ACTIVE</div>
-        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">By Shreyans Jain</div>
+        <div id="status-chip" class="badge hidden"
+            style="background: rgba(16, 185, 129, 0.1); color: var(--success); border-color: rgba(16, 185, 129, 0.3);">
+            MISSION ACTIVE</div>
+        <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500; opacity: 0.8;">By Shreyans Jain</div>
     </header>
 
     <div class="app-body">
         <aside id="sidebar">
             <button class="new-chat-btn" onclick="newResearch()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5">
                     <line x1="12" y1="5" x2="12" y2="19"></line>
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                 </svg>
                 New Research
             </button>
             <div
-                style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; padding-left: 0.5rem;">
-                Recent Mission Logs</div>
-            <div id="history-list" class="history-list">
-                <!-- History items will appear here -->
-            </div>
+                style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; padding-left: 0.5rem; font-weight: 600;">
+                Intelligence Logs</div>
+            <div id="history-list" class="history-list"></div>
         </aside>
 
-        <main>
+        <main onclick="closeSidebar()">
             <div id="chat-container">
                 <div id="welcome" class="welcome-screen">
-                    <h1>SENDA DeepSearch Agent</h1>
-                    <p>Proprietary autonomous investigation engine designed by <b>Shreyans Jain</b>. Powered by
-                        Llama-3-70B & Live Web Evidence.</p>
+                    <div
+                        style="background: var(--accent); width: 64px; height: 64px; border-radius: 20px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; box-shadow: 0 0 30px var(--accent-glow);">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h1>Beyond Search.<br>Decision Intelligence.</h1>
+                    <p>Proprietary autonomous agent designed by <b>Shreyans Jain</b>. <br>Exhaustive multi-modal web
+                        investigation with Llama-3 synthesis.</p>
                     <div class="quick-tips"
                         style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
                         <div class="badge"
@@ -490,14 +605,18 @@
 
             <div class="input-container">
                 <div class="input-wrapper">
-                    <input type="text" id="query-input" placeholder="Initiate research mission..." autocomplete="off">
+                    <input type="text" id="query-input" placeholder="Enter research query or financial mission..."
+                        autocomplete="off">
                     <button id="send-btn">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="3"
+                            stroke-linecap="round">
                             <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
                         </svg>
                     </button>
                 </div>
+                <div
+                    style="text-align: center; color: var(--text-muted); font-size: 0.7rem; margin-top: 1rem; opacity: 0.6;">
+                    SENDA Autonomous Engine - Verifying live evidence across 10+ sources.</div>
             </div>
         </main>
     </div>
@@ -510,28 +629,33 @@
         const sendBtn = document.getElementById('send-btn');
         const statusChip = document.getElementById('status-chip');
         const historyList = document.getElementById('history-list');
+        const sidebar = document.getElementById('sidebar');
+        const mobileToggle = document.getElementById('mobile-toggle');
 
         let currentSse = null;
         let researchHistory = JSON.parse(localStorage.getItem('senda_history') || '[]');
 
         function init() {
             renderHistory();
+            mobileToggle.onclick = (e) => { e.stopPropagation(); sidebar.classList.toggle('open'); };
         }
+
+        function closeSidebar() { if (sidebar.classList.contains('open')) sidebar.classList.remove('open'); }
 
         function renderHistory() {
             historyList.innerHTML = '';
             researchHistory.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
-                div.innerText = item.query;
-                div.onclick = () => loadHistoryItem(index);
+                div.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px; opacity:0.6"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg> ${item.query}`;
+                div.onclick = () => { loadHistoryItem(index); closeSidebar(); };
                 historyList.appendChild(div);
             });
         }
 
         function saveToHistory(query, reportContent) {
             researchHistory.unshift({ query, content: reportContent, timestamp: new Date().getTime() });
-            researchHistory = researchHistory.slice(0, 20); // Keep last 20
+            researchHistory = researchHistory.slice(0, 20);
             localStorage.setItem('senda_history', JSON.stringify(researchHistory));
             renderHistory();
         }
@@ -539,7 +663,6 @@
         function loadHistoryItem(index) {
             const item = researchHistory[index];
             if (!item) return;
-
             welcome.classList.add('hidden');
             messagesList.innerHTML = '';
 
@@ -555,7 +678,7 @@
             reportWrapper.className = 'report-section';
             reportWrapper.innerHTML = `
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 2rem;">
-                    <button id="download-btn-hist" class="badge" style="cursor: pointer; padding: 0.5rem 1rem; background: var(--success); color: #fff; border:none;">Download as PDF</button>
+                    <button id="download-btn-hist" class="badge" style="cursor: pointer; padding: 0.6rem 1.2rem; background: var(--success); color: #fff; border:none; border-radius:10px">Export Final PDF</button>
                 </div>
                 <div id="hist-report-content">${marked.parse(item.content)}</div>
             `;
@@ -567,20 +690,10 @@
 
             reportWrapper.querySelector('#download-btn-hist').onclick = () => {
                 reportDiv.classList.add('printable');
-                html2pdf().from(reportDiv).set({
-                    margin: 1,
-                    filename: `SENDA_Report_${item.timestamp}.pdf`,
-                    html2canvas: { scale: 2 }
-                }).save().then(() => {
-                    reportDiv.classList.remove('printable');
-                });
+                html2pdf().from(reportDiv).set({ margin: 1, filename: `SENDA_Report_${item.timestamp}.pdf`, html2canvas: { scale: 2 } }).save().then(() => reportDiv.classList.remove('printable'));
             };
-
             chatContainer.scrollTo(0, 0);
-
-            document.querySelectorAll('.history-item').forEach((el, i) => {
-                el.classList.toggle('active', i === index);
-            });
+            document.querySelectorAll('.history-item').forEach((el, i) => el.classList.toggle('active', i === index));
         }
 
         function newResearch() {
@@ -588,39 +701,33 @@
             welcome.classList.remove('hidden');
             document.querySelectorAll('.history-item').forEach(el => el.classList.remove('active'));
             queryInput.focus();
+            closeSidebar();
         }
 
-        function fastInput(text) {
-            queryInput.value = text;
-            startResearch();
-        }
+        function fastInput(text) { queryInput.value = text; startResearch(); }
 
         function createBotMessage() {
             const botMsg = document.createElement('div');
             botMsg.className = 'message bot-message';
-
             const panel = document.createElement('div');
             panel.className = 'research-panel';
             panel.innerHTML = `
                 <div class="research-header">
                     <div class="status-spinner"></div>
-                    <div id="status-text" style="font-weight: 600; font-size: 0.95rem;">Planning Mission...</div>
+                    <div id="status-text" style="font-weight: 700; font-size: 1.1rem; letter-spacing:-0.01em">Initiating Neural Search Path...</div>
                 </div>
                 <div class="thought-log" id="thought-log"></div>
             `;
-
             botMsg.appendChild(panel);
-
             const reportWrapper = document.createElement('div');
             reportWrapper.className = 'report-section hidden';
             reportWrapper.innerHTML = `
                 <div style="display: flex; justify-content: flex-end; margin-bottom: 2rem;">
-                    <button id="download-btn" class="badge" style="cursor: pointer; padding: 0.5rem 1rem; background: var(--success); color: #fff; border:none;">Download as PDF</button>
+                    <button id="download-btn" class="badge" style="cursor: pointer; padding: 0.6rem 1.2rem; background: var(--success); color: #fff; border:none; border-radius:10px">Export Final PDF</button>
                 </div>
                 <div id="final-report-content"></div>
             `;
             botMsg.appendChild(reportWrapper);
-
             messagesList.appendChild(botMsg);
             return { botMsg, panel, thoughtLog: panel.querySelector('#thought-log'), statusText: panel.querySelector('#status-text'), reportWrapper, reportDiv: reportWrapper.querySelector('#final-report-content'), downloadBtn: reportWrapper.querySelector('#download-btn') };
         }
@@ -628,100 +735,59 @@
         function startResearch() {
             const query = queryInput.value.trim();
             if (!query) return;
-
             welcome.classList.add('hidden');
-            queryInput.value = '';
-            queryInput.disabled = true;
-            sendBtn.disabled = true;
+            queryInput.value = ''; queryInput.disabled = true; sendBtn.disabled = true;
             statusChip.classList.remove('hidden');
-
             const userMsg = document.createElement('div');
             userMsg.className = 'message user-message';
             userMsg.innerHTML = `<div class="content">${query}</div>`;
             messagesList.appendChild(userMsg);
-
             const { panel, thoughtLog, statusText, reportWrapper, reportDiv, downloadBtn } = createBotMessage();
             chatContainer.scrollTo(0, chatContainer.scrollHeight);
-
             const url = `/api/research/stream?query=${encodeURIComponent(query)}`;
             currentSse = new EventSource(url);
-
             let totalSteps = 10;
-            let currentStepCount = 0;
-
-            currentSse.addEventListener('analysis', (e) => {
-                const data = JSON.parse(e.data);
-                if (data.sector) {
-                    statusText.innerText = `Delegating: ${data.sector} Unit`;
-                }
-            });
-
             currentSse.addEventListener('plan', (e) => {
                 const data = JSON.parse(e.data);
                 if (data.areas) {
-                    statusText.innerText = "Plan Approved";
+                    statusText.innerText = `Strategy Approved: ${data.areas.length} Nodes`;
                     totalSteps = data.areas.length + 4;
                 }
             });
-
             currentSse.addEventListener('thought', (e) => {
                 const data = JSON.parse(e.data);
                 addThought(thoughtLog, data.message, 'active', data.level);
             });
-
             currentSse.addEventListener('step_start', (e) => {
                 const data = JSON.parse(e.data);
-                currentStepCount = data.step;
-                statusText.innerText = `Searching: ${data.label}`;
-                updateProgress(panel, currentStepCount, totalSteps);
+                statusText.innerText = `Explaining: ${data.label}`;
+                updateProgress(panel, data.step, totalSteps);
             });
-
             currentSse.addEventListener('report', (e) => {
                 const data = JSON.parse(e.data);
                 statusText.innerText = "Intelligence Ready";
                 updateProgress(panel, totalSteps, totalSteps);
                 panel.querySelector('.status-spinner').style.display = 'none';
-
                 reportWrapper.classList.remove('hidden');
                 reportDiv.innerHTML = marked.parse(data.content);
                 reportDiv.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
-
                 downloadBtn.onclick = () => {
                     reportDiv.classList.add('printable');
-                    const opt = {
-                        margin: 1,
-                        filename: `SENDA_Report_${new Date().getTime()}.pdf`,
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { scale: 2, useCORS: true },
-                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-                    };
-                    html2pdf().from(reportDiv).set(opt).save().then(() => {
-                        reportDiv.classList.remove('printable');
-                    });
+                    html2pdf().from(reportDiv).set({ margin: 1, filename: `SENDA_Report_${new Date().getTime()}.pdf`, html2canvas: { scale: 2 } }).save().then(() => reportDiv.classList.remove('printable'));
                 };
-
                 saveToHistory(query, data.content);
-
                 statusChip.innerText = "COMPLETE";
                 setTimeout(() => statusChip.classList.add('hidden'), 3000);
             });
-
             currentSse.addEventListener('done', cleanup);
-            currentSse.onerror = (err) => {
-                statusText.innerText = "Error Occurred";
-                cleanup();
-            };
+            currentSse.onerror = () => { statusText.innerText = "Error in Neural Link"; cleanup(); };
         }
 
         function updateProgress(panel, current, total) {
             const progress = (current / total) * 100;
             const styleId = 'progress-style';
             let style = document.getElementById(styleId);
-            if (!style) {
-                style = document.createElement('style');
-                style.id = styleId;
-                document.head.appendChild(style);
-            }
+            if (!style) { style = document.createElement('style'); style.id = styleId; document.head.appendChild(style); }
             style.innerHTML = `.research-panel::after { width: ${progress}% !important; }`;
         }
 
@@ -736,9 +802,7 @@
 
         function cleanup() {
             if (currentSse) { currentSse.close(); currentSse = null; }
-            queryInput.disabled = false;
-            sendBtn.disabled = false;
-            queryInput.focus();
+            queryInput.disabled = false; sendBtn.disabled = false; queryInput.focus();
         }
 
         queryInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startResearch(); });
