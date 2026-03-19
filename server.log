@@ -1,0 +1,8 @@
+nohup: ignoring input
+INFO:     Will watch for changes in these directories: ['/home/shrey/projects/research_agent']
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [54319] using WatchFiles
+INFO:     Started server process [54323]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:54100 - "GET / HTTP/1.1" 200 OK
