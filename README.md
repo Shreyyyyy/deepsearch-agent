@@ -1,6 +1,6 @@
-# SENDA DeepSearch Agent 🚀
+# SHREY DeepSearch Agent 🚀
 
-**SENDA DeepSearch Agent** is a proprietary, autonomous multi-agent research engine designed for high-fidelity financial analysis and deep investigative research. Powered by **Llama-3.3-70B** and real-time web evidence, it replicates the "Deep Research Mode" of advanced AI assistants with a focus on investment-grade accuracy and transparency.
+**SHREY DeepSearch Agent** is a proprietary, autonomous multi-agent research engine designed for high-fidelity financial analysis and deep investigative research. Powered by **Llama-3.3-70B** and real-time web evidence, it replicates the "Deep Research Mode" of advanced AI assistants with a focus on investment-grade accuracy and transparency.
 
 Designed and Developed by: **Shreyans Jain**
 
@@ -61,7 +61,7 @@ Visit `http://localhost:8000` to initiate your first research mission.
 
 ## 🏗️ Architecture Overview
 
-The SENDA engine operates in five distinct phases:
+The SHREY engine operates in five distinct phases:
 1. **Query Deconstruction**: Llama-3 analyzes intent, sector, and depth requirements.
 2. **Dynamic Planning**: The `ResearchPlanner` constructs a tailored investigation roadmap.
 3. **Evidence Loop**: The `ResearchExecutor` autonomously searches, scrapes, and performs micro-analysis on web sources.
