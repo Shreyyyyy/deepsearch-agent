@@ -409,6 +409,24 @@
             display: none !important;
         }
 
+        /* PDF EXPORT STYLES (High Contrast) */
+        .printable {
+            background: #ffffff !important;
+            color: #000000 !important;
+            padding: 40px !important;
+        }
+
+        .printable * {
+            color: #000000 !important;
+            border-color: #cccccc !important;
+            background: transparent !important;
+        }
+
+        .printable th {
+            background: #f0f0f0 !important;
+            color: #000 !important;
+        }
+
         @media (max-width: 768px) {
             #sidebar {
                 display: none;
@@ -548,7 +566,14 @@
             reportDiv.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
 
             reportWrapper.querySelector('#download-btn-hist').onclick = () => {
-                html2pdf().from(reportDiv).set({ margin: 1, filename: `SENDA_Report_${item.timestamp}.pdf`, html2canvas: { scale: 2 } }).save();
+                reportDiv.classList.add('printable');
+                html2pdf().from(reportDiv).set({
+                    margin: 1,
+                    filename: `SENDA_Report_${item.timestamp}.pdf`,
+                    html2canvas: { scale: 2 }
+                }).save().then(() => {
+                    reportDiv.classList.remove('printable');
+                });
             };
 
             chatContainer.scrollTo(0, 0);
@@ -662,7 +687,17 @@
                 reportDiv.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
 
                 downloadBtn.onclick = () => {
-                    html2pdf().from(reportDiv).set({ margin: 1, filename: `SENDA_Report_${new Date().getTime()}.pdf`, html2canvas: { scale: 2 } }).save();
+                    reportDiv.classList.add('printable');
+                    const opt = {
+                        margin: 1,
+                        filename: `SENDA_Report_${new Date().getTime()}.pdf`,
+                        image: { type: 'jpeg', quality: 0.98 },
+                        html2canvas: { scale: 2, useCORS: true },
+                        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                    };
+                    html2pdf().from(reportDiv).set(opt).save().then(() => {
+                        reportDiv.classList.remove('printable');
+                    });
                 };
 
                 saveToHistory(query, data.content);
