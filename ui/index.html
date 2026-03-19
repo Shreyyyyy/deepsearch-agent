@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DeepResearch | AI Financial Intelligence | SENDA | By: Shreyans Jain</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,6 +18,7 @@
         :root {
             --bg-dark: #0a0a0b;
             --panel-dark: #161618;
+            --sidebar-dark: #0f0f11;
             --accent: #3b82f6;
             --accent-glow: rgba(59, 130, 246, 0.4);
             --text-main: #e2e8f0;
@@ -43,7 +45,7 @@
         }
 
         header {
-            padding: 1.5rem 2rem;
+            padding: 1rem 1.5rem;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -55,8 +57,7 @@
 
         .logo {
             font-weight: 700;
-            font-size: 1.25rem;
-            letter-spacing: -0.02em;
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -66,16 +67,75 @@
             color: var(--accent);
         }
 
-        .badge {
-            background: rgba(59, 130, 246, 0.1);
-            color: var(--accent);
-            padding: 0.2rem 0.6rem;
-            border-radius: 99px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border: 1px solid var(--accent-glow);
+        .app-body {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
         }
 
+        /* SIDEBAR */
+        #sidebar {
+            width: 260px;
+            background: var(--sidebar-dark);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .new-chat-btn {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--accent-glow);
+            color: var(--text-main);
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .new-chat-btn:hover {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .history-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .history-item {
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.2s;
+        }
+
+        .history-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .history-item.active {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            border-left: 2px solid var(--accent);
+        }
+
+        /* MAIN CONTENT */
         main {
             flex: 1;
             display: flex;
@@ -89,7 +149,7 @@
             overflow-y: auto;
             padding: 2rem;
             scroll-behavior: smooth;
-            max-width: 1000px;
+            max-width: 900px;
             margin: 0 auto;
             width: 100%;
         }
@@ -208,7 +268,7 @@
             background: rgba(0, 0, 0, 0.2);
             padding: 1.25rem;
             border-radius: 0.75rem;
-            max-height: 350px;
+            max-height: 250px;
             overflow-y: auto;
             border: 1px solid var(--border);
             display: flex;
@@ -219,7 +279,6 @@
         .thought-entry {
             border-left: 2px solid var(--border);
             padding-left: 1rem;
-            transition: all 0.3s ease;
         }
 
         .thought-entry.info {
@@ -230,7 +289,6 @@
         .thought-entry.success {
             border-left-color: var(--success);
             color: var(--success);
-            background: rgba(16, 185, 129, 0.05);
         }
 
         .thought-entry.warning {
@@ -241,7 +299,6 @@
         .thought-entry.error {
             border-left-color: #ef4444;
             color: #ef4444;
-            background: rgba(239, 68, 68, 0.05);
         }
 
         .insight-pill {
@@ -260,78 +317,31 @@
             background: transparent;
             padding: 1.5rem 0;
             line-height: 1.8;
-            font-size: 1rem;
         }
 
         .report-section h1 {
-            font-size: 2rem;
-            margin: 2.5rem 0 1.25rem;
-            color: #fff;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-        }
-
-        .report-section h2 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             margin: 2rem 0 1rem;
-            border-bottom: 2px solid var(--border);
-            padding-bottom: 0.6rem;
-            font-weight: 600;
-            color: var(--text-main);
-        }
-
-        .report-section h3 {
-            font-size: 1.2rem;
-            margin: 1.5rem 0 0.75rem;
-            font-weight: 600;
-            color: #cbd5e1;
-        }
-
-        .report-section p {
-            margin-bottom: 1.25rem;
-            color: #cbd5e1;
-        }
-
-        .report-section ul,
-        .report-section ol {
-            margin-bottom: 1.75rem;
-            padding-left: 1.75rem;
-        }
-
-        .report-section li {
-            margin-bottom: 0.6rem;
-            color: #cbd5e1;
+            color: #fff;
         }
 
         .report-section table {
             width: 100%;
             border-collapse: collapse;
-            margin: 2rem 0;
-            font-size: 0.95rem;
-            background: rgba(255, 255, 255, 0.02);
+            margin: 1rem 0;
+            font-size: 0.9rem;
         }
 
         .report-section th,
         .report-section td {
             border: 1px solid var(--border);
-            padding: 1rem;
+            padding: 0.75rem;
             text-align: left;
         }
 
         .report-section th {
             background: rgba(59, 130, 246, 0.1);
             color: var(--accent);
-            font-weight: 600;
-        }
-
-        .report-section blockquote {
-            border-left: 4px solid var(--accent);
-            background: rgba(59, 130, 246, 0.05);
-            padding: 1.25rem;
-            margin: 1.5rem 0;
-            border-radius: 0 8px 8px 0;
-            font-style: italic;
-            color: #94a3b8;
         }
 
         .input-container {
@@ -341,22 +351,20 @@
         }
 
         .input-wrapper {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
             background: var(--panel-dark);
             border: 1px solid var(--border);
             border-radius: 1.5rem;
             display: flex;
             align-items: center;
-            padding: 0.6rem 0.6rem 0.6rem 1.5rem;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+            transition: all 0.25s;
         }
 
         .input-wrapper:focus-within {
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px var(--accent-glow), 0 15px 40px rgba(0, 0, 0, 0.5);
-            transform: scale(1.01);
+            box-shadow: 0 0 0 3px var(--accent-glow);
         }
 
         input {
@@ -364,8 +372,7 @@
             background: transparent;
             border: none;
             color: var(--text-main);
-            font-size: 1.05rem;
-            padding: 0.6rem 0;
+            font-size: 1rem;
             outline: none;
         }
 
@@ -373,44 +380,29 @@
             background: var(--accent);
             color: white;
             border: none;
-            width: 44px;
-            height: 44px;
+            width: 40px;
+            height: 40px;
             border-radius: 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: 0.2s;
         }
 
         button#send-btn:hover {
-            transform: translateY(-2px);
             background: #2563eb;
-            box-shadow: 0 6px 16px var(--accent-glow);
+            transform: translateY(-1px);
         }
 
-        button#send-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
+        .badge {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 0.2rem 0.6rem;
+            border-radius: 99px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid var(--accent-glow);
         }
 
         .hidden {
@@ -418,20 +410,12 @@
         }
 
         @media (max-width: 768px) {
+            #sidebar {
+                display: none;
+            }
+
             header {
-                padding: 1rem 1.5rem;
-            }
-
-            #chat-container {
-                padding: 1rem 1.5rem;
-            }
-
-            .welcome-screen h1 {
-                font-size: 2.25rem;
-            }
-
-            .input-container {
-                padding: 1rem 1.5rem 2.5rem;
+                padding: 1rem;
             }
         }
     </style>
@@ -446,39 +430,59 @@
         <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 500;">By Shreyans Jain</div>
     </header>
 
-    <main>
-        <div id="chat-container">
-            <div id="welcome" class="welcome-screen">
-                <h1>SENDA DeepSearch Agent</h1>
-                <p>Proprietary autonomous investigation engine designed by <b>Shreyans Jain</b>. Powered by Llama-3-70B
-                    & Live Web Evidence.</p>
-                <div class="quick-tips" style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
-                    <div class="badge"
-                        onclick="fastInput('Live analysis of Indian tech sector outlook and AI roadmap 2026')">Tech
-                        Roadmap 2026</div>
-                    <div class="badge"
-                        onclick="fastInput('Deep dive into Sun Pharma specialty pipeline and US generics status')">
-                        Pharma Intel</div>
-                    <div class="badge"
-                        onclick="fastInput('Cross-sector comparative study of US regional banking impact on IT spending')">
-                        Macro Banking vs IT</div>
+    <div class="app-body">
+        <aside id="sidebar">
+            <button class="new-chat-btn" onclick="newResearch()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                New Research
+            </button>
+            <div
+                style="font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; padding-left: 0.5rem;">
+                Recent Mission Logs</div>
+            <div id="history-list" class="history-list">
+                <!-- History items will appear here -->
+            </div>
+        </aside>
+
+        <main>
+            <div id="chat-container">
+                <div id="welcome" class="welcome-screen">
+                    <h1>SENDA DeepSearch Agent</h1>
+                    <p>Proprietary autonomous investigation engine designed by <b>Shreyans Jain</b>. Powered by
+                        Llama-3-70B & Live Web Evidence.</p>
+                    <div class="quick-tips"
+                        style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center;">
+                        <div class="badge"
+                            onclick="fastInput('Live analysis of Indian tech sector outlook and AI roadmap 2026')">Tech
+                            Roadmap 2026</div>
+                        <div class="badge"
+                            onclick="fastInput('Deep dive into Sun Pharma specialty pipeline and US generics status')">
+                            Pharma Intel</div>
+                        <div class="badge"
+                            onclick="fastInput('Cross-sector comparative study of US regional banking impact on IT spending')">
+                            Macro Banking vs IT</div>
+                    </div>
+                </div>
+                <div id="messages-list"></div>
+            </div>
+
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <input type="text" id="query-input" placeholder="Initiate research mission..." autocomplete="off">
+                    <button id="send-btn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <div id="messages-list"></div>
-        </div>
-
-        <div class="input-container">
-            <div class="input-wrapper">
-                <input type="text" id="query-input" placeholder="Initiate research mission..." autocomplete="off">
-                <button id="send-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 
     <script>
         const chatContainer = document.getElementById('chat-container');
@@ -487,8 +491,79 @@
         const queryInput = document.getElementById('query-input');
         const sendBtn = document.getElementById('send-btn');
         const statusChip = document.getElementById('status-chip');
+        const historyList = document.getElementById('history-list');
 
         let currentSse = null;
+        let researchHistory = JSON.parse(localStorage.getItem('senda_history') || '[]');
+
+        function init() {
+            renderHistory();
+        }
+
+        function renderHistory() {
+            historyList.innerHTML = '';
+            researchHistory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerText = item.query;
+                div.onclick = () => loadHistoryItem(index);
+                historyList.appendChild(div);
+            });
+        }
+
+        function saveToHistory(query, reportContent) {
+            researchHistory.unshift({ query, content: reportContent, timestamp: new Date().getTime() });
+            researchHistory = researchHistory.slice(0, 20); // Keep last 20
+            localStorage.setItem('senda_history', JSON.stringify(researchHistory));
+            renderHistory();
+        }
+
+        function loadHistoryItem(index) {
+            const item = researchHistory[index];
+            if (!item) return;
+
+            welcome.classList.add('hidden');
+            messagesList.innerHTML = '';
+
+            const userMsg = document.createElement('div');
+            userMsg.className = 'message user-message';
+            userMsg.innerHTML = `<div class="content">${item.query}</div>`;
+            messagesList.appendChild(userMsg);
+
+            const botMsg = document.createElement('div');
+            botMsg.className = 'message bot-message';
+
+            const reportWrapper = document.createElement('div');
+            reportWrapper.className = 'report-section';
+            reportWrapper.innerHTML = `
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 2rem;">
+                    <button id="download-btn-hist" class="badge" style="cursor: pointer; padding: 0.5rem 1rem; background: var(--success); color: #fff; border:none;">Download as PDF</button>
+                </div>
+                <div id="hist-report-content">${marked.parse(item.content)}</div>
+            `;
+            botMsg.appendChild(reportWrapper);
+            messagesList.appendChild(botMsg);
+
+            const reportDiv = reportWrapper.querySelector('#hist-report-content');
+            reportDiv.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
+
+            reportWrapper.querySelector('#download-btn-hist').onclick = () => {
+                html2pdf().from(reportDiv).set({ margin: 1, filename: `SENDA_Report_${item.timestamp}.pdf`, html2canvas: { scale: 2 } }).save();
+            };
+
+            chatContainer.scrollTo(0, 0);
+
+            document.querySelectorAll('.history-item').forEach((el, i) => {
+                el.classList.toggle('active', i === index);
+            });
+        }
+
+        function newResearch() {
+            messagesList.innerHTML = '';
+            welcome.classList.remove('hidden');
+            document.querySelectorAll('.history-item').forEach(el => el.classList.remove('active'));
+            queryInput.focus();
+        }
 
         function fastInput(text) {
             queryInput.value = text;
@@ -511,13 +586,18 @@
 
             botMsg.appendChild(panel);
 
-            const reportDiv = document.createElement('div');
-            reportDiv.className = 'report-section hidden';
-            reportDiv.id = 'final-report';
-            botMsg.appendChild(reportDiv);
+            const reportWrapper = document.createElement('div');
+            reportWrapper.className = 'report-section hidden';
+            reportWrapper.innerHTML = `
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 2rem;">
+                    <button id="download-btn" class="badge" style="cursor: pointer; padding: 0.5rem 1rem; background: var(--success); color: #fff; border:none;">Download as PDF</button>
+                </div>
+                <div id="final-report-content"></div>
+            `;
+            botMsg.appendChild(reportWrapper);
 
             messagesList.appendChild(botMsg);
-            return { botMsg, panel, thoughtLog: panel.querySelector('#thought-log'), statusText: panel.querySelector('#status-text'), reportDiv };
+            return { botMsg, panel, thoughtLog: panel.querySelector('#thought-log'), statusText: panel.querySelector('#status-text'), reportWrapper, reportDiv: reportWrapper.querySelector('#final-report-content'), downloadBtn: reportWrapper.querySelector('#download-btn') };
         }
 
         function startResearch() {
@@ -535,7 +615,7 @@
             userMsg.innerHTML = `<div class="content">${query}</div>`;
             messagesList.appendChild(userMsg);
 
-            const { panel, thoughtLog, statusText, reportDiv } = createBotMessage();
+            const { panel, thoughtLog, statusText, reportWrapper, reportDiv, downloadBtn } = createBotMessage();
             chatContainer.scrollTo(0, chatContainer.scrollHeight);
 
             const url = `/api/research/stream?query=${encodeURIComponent(query)}`;
@@ -548,20 +628,14 @@
                 const data = JSON.parse(e.data);
                 if (data.sector) {
                     statusText.innerText = `Delegating: ${data.sector} Unit`;
-                    addThought(thoughtLog, `Intent: ${data.intent}`, 'active');
-                } else {
-                    addThought(thoughtLog, data.message, 'active');
                 }
             });
 
             currentSse.addEventListener('plan', (e) => {
                 const data = JSON.parse(e.data);
                 if (data.areas) {
-                    statusText.innerText = "Execution Plan Approved";
-                    addThought(thoughtLog, `Strategy: ${data.areas.length} investigation domains identified.`, 'active');
+                    statusText.innerText = "Plan Approved";
                     totalSteps = data.areas.length + 4;
-                } else {
-                    addThought(thoughtLog, data.message, 'active', 'info');
                 }
             });
 
@@ -574,35 +648,7 @@
                 const data = JSON.parse(e.data);
                 currentStepCount = data.step;
                 statusText.innerText = `Searching: ${data.label}`;
-                const entry = addThought(thoughtLog, data.action, 'active');
-                entry.id = `step-${data.step}`;
                 updateProgress(panel, currentStepCount, totalSteps);
-            });
-
-            currentSse.addEventListener('step_done', (e) => {
-                const data = JSON.parse(e.data);
-                const entry = document.getElementById(`step-${data.step}`);
-                if (entry) {
-                    entry.classList.remove('active');
-                    entry.classList.add('done');
-                    let insightsHtml = '<div style="margin-top: 6px;">';
-                    data.insights.slice(0, 3).forEach(ins => {
-                        insightsHtml += `<span class="insight-pill">${ins.slice(0, 45)}...</span>`;
-                    });
-                    insightsHtml += '</div>';
-                    entry.innerHTML += insightsHtml;
-                }
-                chatContainer.scrollTo(0, chatContainer.scrollHeight);
-            });
-
-            currentSse.addEventListener('financial_start', (e) => {
-                statusText.innerText = "Extracting Hard KPIs";
-                addThought(thoughtLog, "Running quantitative pattern analysis...", 'active');
-            });
-
-            currentSse.addEventListener('report_start', (e) => {
-                statusText.innerText = "Synthesizing Narrative";
-                addThought(thoughtLog, "Initiating LLM Cross-Synthesis...", 'active');
             });
 
             currentSse.addEventListener('report', (e) => {
@@ -610,24 +656,38 @@
                 statusText.innerText = "Intelligence Ready";
                 updateProgress(panel, totalSteps, totalSteps);
                 panel.querySelector('.status-spinner').style.display = 'none';
-                reportDiv.classList.remove('hidden');
+
+                reportWrapper.classList.remove('hidden');
                 reportDiv.innerHTML = marked.parse(data.content);
                 reportDiv.querySelectorAll('pre code').forEach((block) => hljs.highlightElement(block));
+
+                downloadBtn.onclick = () => {
+                    html2pdf().from(reportDiv).set({ margin: 1, filename: `SENDA_Report_${new Date().getTime()}.pdf`, html2canvas: { scale: 2 } }).save();
+                };
+
+                saveToHistory(query, data.content);
+
                 statusChip.innerText = "COMPLETE";
                 setTimeout(() => statusChip.classList.add('hidden'), 3000);
             });
 
             currentSse.addEventListener('done', cleanup);
             currentSse.onerror = (err) => {
-                statusText.innerText = "Mission Interrupted";
-                addThought(thoughtLog, "Critical error or connection drop. Restart required.", 'active');
+                statusText.innerText = "Error Occurred";
                 cleanup();
             };
         }
 
         function updateProgress(panel, current, total) {
             const progress = (current / total) * 100;
-            panel.insertAdjacentHTML('afterbegin', `<style>.research-panel::after { width: ${progress}% !important; }</style>`);
+            const styleId = 'progress-style';
+            let style = document.getElementById(styleId);
+            if (!style) {
+                style = document.createElement('style');
+                style.id = styleId;
+                document.head.appendChild(style);
+            }
+            style.innerHTML = `.research-panel::after { width: ${progress}% !important; }`;
         }
 
         function addThought(container, text, statusClass, level = 'info') {
@@ -648,7 +708,7 @@
 
         queryInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') startResearch(); });
         sendBtn.addEventListener('click', startResearch);
-        queryInput.focus();
+        init();
     </script>
 </body>
 
